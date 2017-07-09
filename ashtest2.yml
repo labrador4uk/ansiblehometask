@@ -34,7 +34,7 @@
     - name: Stop app
       sudo_user: ubuntu
       command: pm2 stop app chdir=/home/ubuntu/mynodejsapp
-      
+      ignore_errors: yes
 
     - name: Start app
       sudo_user: ubuntu
