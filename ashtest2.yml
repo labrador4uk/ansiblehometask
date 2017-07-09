@@ -1,5 +1,5 @@
 ---
- - hosts: all
+ - hosts: node02
    tasks:
     - name: Installing apps
       apt: name={{ item }} update_cache=yes state=latest
