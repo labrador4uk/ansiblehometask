@@ -1,5 +1,10 @@
 ---
  - hosts: node02
+   sudo: yes
+   
+
+
+
    tasks:
     - name: Installing apps
       apt: name={{ item }} update_cache=yes state=latest
@@ -9,15 +14,20 @@
         - nodejs-legacy
         - nginx
 
-
     - name: Create app dir
       file: path=/home/ubuntu/mynodejsapp state=directory
 
 
     - name: Clone git repo
       git: repo=https://github.com/labrador4uk/ansiblehometask.git dest=/home/ubuntu/mynodejsapp update=yes force=yes
-   
+      register: git_finished
+
     - name: Running NPM install
-      npm: path=/home/ubuntu/mynodejsapp/backened
+      npm: path=/home/ubuntu/mynodejsapp
       register: npm_finished
       when: git_finished.changed
+
+    - name: Stop app
+      sudo_user: ubuntu
+      command: node /home/ubuntu/mynodejsapp/myapp.js
+      when: npm_finished.changed
