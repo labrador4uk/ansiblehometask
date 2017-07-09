@@ -4,10 +4,10 @@
     - name: Installing apps
       apt: name={{ item }} update_cache=yes state=latest
       with_items:
-        -npm
-        -nodejs
-        -nodejs-legacy
-        -nginx
+        - npm
+        - nodejs
+        - nodejs-legacy
+        - nginx
 
 
     - name: Create app dir
@@ -18,6 +18,6 @@
       git: repo=https://github.com/labrador4uk/ansiblehometask.git dest=/home/ubuntu/mynodejsapp update=yes force=yes
    
     - name: Running NPM install
-      npm: path /home/ubuntu/mynodejsapp/backened
+      npm: path=/home/ubuntu/mynodejsapp/backened
       register: npm_finished
       when: git_finished.changed
