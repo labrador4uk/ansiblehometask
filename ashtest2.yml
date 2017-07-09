@@ -14,6 +14,10 @@
         - nodejs-legacy
         - nginx
 
+    - name: Install pm2
+      npm: name=pm2 global=yes production=yes
+
+
     - name: Create app dir
       file: path=/home/ubuntu/mynodejsapp state=directory
 
@@ -29,5 +33,10 @@
 
     - name: Stop app
       sudo_user: ubuntu
-      command: node /home/ubuntu/mynodejsapp/myapp.js
-      when: npm_finished.changed
+      command: pm2 stop app chdir=/home/ubuntu/mynodejsapp
+      
+
+    - name: Start app
+      sudo_user: ubuntu
+      command: pm2 start myapp.js --name app chdir=/home/ubuntu/mynodejsapp
+      ignore_errors: yes
