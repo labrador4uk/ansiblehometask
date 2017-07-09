@@ -31,12 +31,8 @@
       register: npm_finished
       when: git_finished.changed
 
-    - name: Stop app
-      sudo_user: ubuntu
-      command: pm2 stop app chdir=/home/ubuntu/mynodejsapp
-      ignore_errors: yes
-
     - name: Start app
       sudo_user: ubuntu
-      command: pm2 start myapp.js --name app chdir=/home/ubuntu/mynodejsapp
+      command: pm2 -f start myapp.js --name app chdir=/home/ubuntu/mynodejsapp
       ignore_errors: yes
+      when: npm_finished.changed
